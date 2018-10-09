@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "com.codingbingo.fastreader"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //为了解决部分第三方库重复打包了META-INF的问题
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+dependencies {
+    //greenDao
+    implementation 'org.greenrobot:greendao:3.2.0'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+    implementation 'com.android.support:design:23.4.0'
+    testImplementation 'junit:junit:4.12'
+
+    // LeanCloud 基础包
+    implementation('cn.leancloud.android:avoscloud-sdk:v3.+')
+    // LeanCloud 统计包
+    implementation('cn.leancloud.android:avoscloud-statistics:v3.+')
+    // 推送与实时聊天需要的包
+    implementation('cn.leancloud.android:avoscloud-push:v3.+@aar') { transitive = true }
+
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //发布到线上的时候删除
+    implementation 'com.facebook.stetho:stetho:1.4.2'
+}
