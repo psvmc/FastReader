@@ -22,6 +22,7 @@ import com.codingbingo.fastreader.ui.adapter.FileListAdapter;
 import com.codingbingo.fastreader.utils.FileUtils;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -85,6 +86,15 @@ public class LocalFileListActivity extends BaseActivity implements View.OnClickL
 
     private void readLocalFiles(){
         localFileList = FileUtils.getSupportFileList(this, new String[]{"txt"});
+
+        List<LocalFile> tempFiles = new ArrayList<>();
+        for (int i = 0; i < localFileList.size(); i++) {
+            if(!localFileList.get(i).getFileName().contains("log")){
+                tempFiles.add(localFileList.get(i));
+            }
+        }
+        localFileList.removeAll(localFileList);
+        localFileList.addAll(tempFiles);
         localFileListAdapter = new FileListAdapter(this, localFileList);
         localFileListAdapter.setOnItemClickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
